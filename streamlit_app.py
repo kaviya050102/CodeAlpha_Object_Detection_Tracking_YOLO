@@ -2,26 +2,19 @@ import streamlit as st
 from ultralytics import YOLO
 from PIL import Image
 import numpy as np
-import tempfile
 import cv2
+import tempfile
 
 
-# Page Configuration
 st.set_page_config(
     page_title="YOLOv8 Object Detection",
-    page_icon="AI",
     layout="wide"
 )
 
 
-st.title("YOLOv8 Object Detection and Tracking System")
-
-st.write(
-    "AI-powered Computer Vision application using YOLOv8 and Streamlit"
-)
+st.title("YOLOv8 Object Detection and Tracking")
 
 
-# Load YOLO Model
 @st.cache_resource
 def load_model():
     return YOLO("yolov8n.pt")
@@ -30,28 +23,8 @@ def load_model():
 model = load_model()
 
 
-# Sidebar
-st.sidebar.title("Project Features")
-
-st.sidebar.write(
-"""
-Features:
-- Image Detection
-- Video Detection
-- Object Tracking
-- Confidence Score
-
-Technologies:
-- Python
-- YOLOv8
-- OpenCV
-- Streamlit
-"""
-)
-
-
 option = st.selectbox(
-    "Choose Detection Type",
+    "Choose Mode",
     [
         "Image Detection",
         "Video Detection"
@@ -59,64 +32,60 @@ option = st.selectbox(
 )
 
 
-# ---------------- IMAGE DETECTION ----------------
+# Image
 
 if option == "Image Detection":
 
-    uploaded_image = st.file_uploader(
+    file = st.file_uploader(
         "Upload Image",
-        type=["jpg", "jpeg", "png"]
+        type=["jpg","jpeg","png"]
     )
 
-    if uploaded_image:
 
-        image = Image.open(uploaded_image)
+    if file:
 
-        st.subheader("Original Image")
+        image = Image.open(file)
 
         st.image(
             image,
-            use_container_width=True
+            caption="Original Image"
         )
 
 
-        img_array = np.array(image)
+        img = np.array(image)
 
 
-        results = model(img_array)
+        result = model(img)
 
 
-        output = results[0].plot()
+        output = result[0].plot()
 
-
-        st.subheader("Detection Result")
 
         st.image(
             output,
             channels="BGR",
-            use_container_width=True
+            caption="Detection Result"
         )
 
 
-# ---------------- VIDEO DETECTION ----------------
+# Video
 
 else:
 
-    uploaded_video = st.file_uploader(
+    file = st.file_uploader(
         "Upload Video",
-        type=["mp4", "avi", "mov"]
+        type=["mp4","avi","mov"]
     )
 
 
-    if uploaded_video:
+    if file:
 
         temp = tempfile.NamedTemporaryFile(
-            delete=False,
-            suffix=".mp4"
+            delete=False
         )
 
         temp.write(
-            uploaded_video.read()
+            file.read()
         )
 
 
@@ -125,10 +94,10 @@ else:
         )
 
 
-        stframe = st.empty()
+        display = st.empty()
 
 
-        while True:
+        while cap.isOpened():
 
             ret, frame = cap.read()
 
@@ -145,7 +114,7 @@ else:
             output = results[0].plot()
 
 
-            stframe.image(
+            display.image(
                 output,
                 channels="BGR"
             )
