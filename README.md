@@ -16,7 +16,7 @@ This project demonstrates the implementation of real-time object detection techn
 
 # Project Workflow
 
-![Project Workflow](ADD_YOUR_IMAGE_LINK_HERE)
+![Project Workflow](assets/project_workflow.jpeg)
 
 ---
 
@@ -69,63 +69,6 @@ This project demonstrates the implementation of real-time object detection techn
 | Web Framework | Streamlit |
 | Image Processing | Pillow |
 | Numerical Computing | NumPy |
-
----
-
-# System Architecture
-
-```
-                User
-
-                 |
-
-                 ↓
-
-        Streamlit Web Interface
-
-                 |
-
-                 ↓
-
-        Image / Video Input
-
-                 |
-
-                 ↓
-
-        Data Preprocessing
-
-                 |
-
-                 ↓
-
-             YOLOv8 Model
-
-                 |
-
-                 ↓
-
-        Object Detection Engine
-
-                 |
-
-        ----------------------
-
-        |                    |
-
- Bounding Boxes       Object Tracking
-
-        |                    |
-
-        ----------------------
-
-                 |
-
-                 ↓
-
-          Detection Output
-
-```
 
 ---
 
