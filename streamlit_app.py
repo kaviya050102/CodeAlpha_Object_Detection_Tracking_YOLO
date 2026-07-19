@@ -2,14 +2,14 @@ import streamlit as st
 from ultralytics import YOLO
 from PIL import Image
 import numpy as np
-import cv2
 import tempfile
+import cv2
 
 
-# ---------------- PAGE CONFIG ----------------
-
+# Page Configuration
 st.set_page_config(
-    page_title="YOLOv8 Object Detection & Tracking",
+    page_title="YOLOv8 Object Detection",
+    page_icon="AI",
     layout="wide"
 )
 
@@ -17,35 +17,11 @@ st.set_page_config(
 st.title("YOLOv8 Object Detection and Tracking System")
 
 st.write(
-    "AI-based Computer Vision application using YOLOv8, OpenCV and Streamlit"
+    "AI-powered Computer Vision application using YOLOv8 and Streamlit"
 )
 
 
-# ---------------- SIDEBAR ----------------
-
-st.sidebar.title("Project Information")
-
-st.sidebar.write(
-"""
-Features:
-
-- Image Detection
-- Video Detection
-- Object Tracking
-- Confidence Score Display
-
-Technologies:
-
-Python
-YOLOv8
-OpenCV
-Streamlit
-"""
-)
-
-
-# ---------------- LOAD MODEL ----------------
-
+# Load YOLO Model
 @st.cache_resource
 def load_model():
     return YOLO("yolov8n.pt")
@@ -54,10 +30,28 @@ def load_model():
 model = load_model()
 
 
-# ---------------- MENU ----------------
+# Sidebar
+st.sidebar.title("Project Features")
+
+st.sidebar.write(
+"""
+Features:
+- Image Detection
+- Video Detection
+- Object Tracking
+- Confidence Score
+
+Technologies:
+- Python
+- YOLOv8
+- OpenCV
+- Streamlit
+"""
+)
+
 
 option = st.selectbox(
-    "Select Detection Mode",
+    "Choose Detection Type",
     [
         "Image Detection",
         "Video Detection"
@@ -73,7 +67,6 @@ if option == "Image Detection":
         "Upload Image",
         type=["jpg", "jpeg", "png"]
     )
-
 
     if uploaded_image:
 
@@ -117,19 +110,18 @@ else:
 
     if uploaded_video:
 
-        temp_file = tempfile.NamedTemporaryFile(
+        temp = tempfile.NamedTemporaryFile(
             delete=False,
             suffix=".mp4"
         )
 
-
-        temp_file.write(
+        temp.write(
             uploaded_video.read()
         )
 
 
         cap = cv2.VideoCapture(
-            temp_file.name
+            temp.name
         )
 
 
