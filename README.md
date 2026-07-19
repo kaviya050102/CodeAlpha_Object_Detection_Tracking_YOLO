@@ -16,7 +16,8 @@ This project demonstrates the implementation of real-time object detection techn
 
 # Project Workflow
 
-![Project Workflow]("D:\internship\object_detection_tracking_YOLO\assest\project_workflow.jpeg")
+
+![Project Workflow](./assets/project_workflow.jpeg)
 
 ---
 
