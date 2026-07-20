@@ -4,13 +4,12 @@ from PIL import Image
 import numpy as np
 import cv2
 import tempfile
-
+import os
 
 st.set_page_config(
     page_title="YOLOv8 Object Detection",
     layout="wide"
 )
-
 
 st.title("YOLOv8 Object Detection and Tracking")
 
@@ -22,44 +21,30 @@ def load_model():
 
 model = load_model()
 
-
 option = st.selectbox(
     "Choose Mode",
-    [
-        "Image Detection",
-        "Video Detection"
-    ]
+    ["Image Detection", "Video Detection"]
 )
 
-
-# Image
-
+# ---------------- Image Detection ----------------
 if option == "Image Detection":
 
     file = st.file_uploader(
         "Upload Image",
-        type=["jpg","jpeg","png"]
+        type=["jpg", "jpeg", "png"]
     )
 
-
     if file:
+        image = Image.open(file).convert("RGB")
 
-        image = Image.open(file)
-
-        st.image(
-            image,
-            caption="Original Image"
-        )
-
+        st.image(image, caption="Original Image")
 
         img = np.array(image)
 
-
-        result = model(img)
-
+        with st.spinner("Running detection..."):
+            result = model(img)
 
         output = result[0].plot()
-
 
         st.image(
             output,
@@ -67,57 +52,39 @@ if option == "Image Detection":
             caption="Detection Result"
         )
 
-
-# Video
-
+# ---------------- Video Detection ----------------
 else:
 
     file = st.file_uploader(
         "Upload Video",
-        type=["mp4","avi","mov"]
+        type=["mp4", "avi", "mov"]
     )
 
-
     if file:
+        temp = tempfile.NamedTemporaryFile(delete=False, suffix=".mp4")
+        temp.write(file.read())
+        temp.close()
 
-        temp = tempfile.NamedTemporaryFile(
-            delete=False
-        )
+        cap = cv2.VideoCapture(temp.name)
 
-        temp.write(
-            file.read()
-        )
+        if not cap.isOpened():
+            st.error("Could not open video file.")
+        else:
+            display = st.empty()
+            stop_button = st.button("Stop")
 
+            while cap.isOpened():
+                ret, frame = cap.read()
 
-        cap = cv2.VideoCapture(
-            temp.name
-        )
+                if not ret or stop_button:
+                    break
 
+                results = model.track(frame, persist=True)
+                output = results[0].plot()
 
-        display = st.empty()
+                display.image(output, channels="BGR")
 
+            cap.release()
 
-        while cap.isOpened():
-
-            ret, frame = cap.read()
-
-            if not ret:
-                break
-
-
-            results = model.track(
-                frame,
-                persist=True
-            )
-
-
-            output = results[0].plot()
-
-
-            display.image(
-                output,
-                channels="BGR"
-            )
-
-
-        cap.release()
+        # clean up temp file after processing
+        os.unlink(temp.name)
