@@ -20,7 +20,7 @@ Built as part of the **CodeAlpha Internship — Task 4: Object Detection and Tra
 
 ### Project Workflow
 
-![Project workflow](assets/project_workflow.png)
+![Project workflow](assets/project_workflow.jpeg)
 
 ### Sample Output
 
