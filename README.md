@@ -1,303 +1,175 @@
-# YOLOv8 Object Detection and Tracking System
+# 🎯 Object Detection & Tracking Web App
 
-## AI-Based Computer Vision Application using YOLOv8, OpenCV and Streamlit
+A Flask web application for real-time object detection and tracking using **YOLOv8**. Upload an image, upload a video, or use your live webcam — all processed with bounding boxes, class labels, and persistent tracking IDs.
 
----
-
-## Project Overview
-
-The **YOLOv8 Object Detection and Tracking System** is an Artificial Intelligence and Computer Vision project that detects and tracks objects from images and videos using the advanced **YOLOv8 deep learning model**.
-
-The application uses a pre-trained YOLOv8 model to identify objects, generate bounding boxes, display object labels, and provide confidence scores through an interactive **Streamlit web application**.
-
-This project demonstrates the implementation of real-time object detection techniques using Deep Learning, Image Processing, and AI model deployment.
+Built as part of the **CodeAlpha Internship — Task 4: Object Detection and Tracking**.
 
 ---
 
-# Project Workflow
+## ✨ Features
 
-
-![Project Workflow](./assets/project_workflow.jpeg)
-
----
-
-# Features
-
-## 1. Image Object Detection
-
-- Upload images through the web interface
-- Detect multiple objects automatically
-- Generate accurate bounding boxes
-- Display object names and confidence scores
-- Visualize AI prediction results instantly
-
-
-## 2. Video Object Detection and Tracking
-
-- Upload video files
-- Process video frames using YOLOv8
-- Detect objects continuously
-- Track objects across multiple frames
-- Generate real-time detection visualization
-
-
-## 3. AI-Powered Object Recognition
-
-- Deep learning based object detection
-- Multi-class object recognition
-- High-speed inference using YOLOv8 Nano model
-- Accurate object localization
-
-
-## 4. Interactive Web Application
-
-- User-friendly Streamlit interface
-- Simple upload-based workflow
-- Fast AI predictions
-- Easy access without complex setup
-
+- 📷 **Image Detection** — upload a JPG/PNG, get back an annotated image with detected objects
+- 🎬 **Video Detection & Tracking** — upload an MP4/AVI/MOV, get back a processed video with bounding boxes and consistent tracking IDs across frames
+- 📹 **Live Webcam Detection** — real-time detection and tracking streamed directly in the browser
+- ⚡ Optimized for CPU inference (frame skipping + reduced inference resolution)
+- 🌐 Output videos are automatically re-encoded to browser-compatible H.264 MP4
 
 ---
 
-# Technology Stack
+## 🎥 Demo
 
-| Category | Technology |
-|----------|------------|
-| Programming Language | Python |
-| AI Framework | Ultralytics YOLOv8 |
-| Deep Learning Model | YOLOv8 Nano |
-| Computer Vision | OpenCV |
-| Web Framework | Streamlit |
-| Image Processing | Pillow |
-| Numerical Computing | NumPy |
+### Project Workflow
+
+![Project workflow](assets/project_workflow.png)
+
+### Sample Output
+
+**Image Detection**
+![Image detection output](assets/image_output.png)
+
+### Demo Video
+
+📺 [Watch the full demo video on Google Drive](https://drive.google.com/file/d/1_vmjuP3uJ6LOxGO15Ge1vbQkmS5-r1iM/view?usp=drivesdk)
+
+> **Note:** make sure the Drive file's sharing setting is **"Anyone with the link"** (Viewer access), otherwise visitors to your GitHub repo won't be able to open it.
+
+<details>
+<summary>📌 How to add your own screenshots (click to expand)</summary>
+
+1. Create an `assets/` folder at the repo root (if it doesn't exist)
+2. Save your workflow diagram, image output, and video output screenshots as `workflow.png`, `image_output.png`.
+3. Commit and push:
+   ```bash
+   git add assets/
+   git commit -m "Add workflow diagram and output screenshots"
+   git push
+   ```
+
+</details>
 
 ---
 
-# Project Structure
+## 🛠️ Tech Stack
+
+| Component | Purpose |
+|---|---|
+| [Flask](https://flask.palletsprojects.com/) | Web server & routing |
+| [Ultralytics YOLOv8](https://docs.ultralytics.com/) | Object detection + built-in ByteTrack tracking |
+| [OpenCV](https://opencv.org/) | Video I/O, frame processing, webcam capture |
+| [imageio-ffmpeg](https://github.com/imageio/imageio-ffmpeg) | Re-encodes output video to browser-playable H.264 |
+| [Bootstrap 5](https://getbootstrap.com/) | Frontend styling (via CDN) |
+
+---
+
+## 📁 Project Structure
 
 ```
-CodeAlpha_Object_Detection_Tracking_YOLO
-
-│
-├── streamlit_app.py
-│      Main Streamlit application
-│
-├── yolov8n.pt
-│      Pre-trained YOLOv8 model
-│
-├── requirements.txt
-│      Required Python dependencies
-│
-├── README.md
-│      Project documentation
-│
-└── .gitignore
-       Ignored files
+object_detection_tracking_YOLO/
+├── app.py                    # Flask app — routes, detection & tracking logic
+├── requirements.txt           # Python dependencies
+├── yolov8n.pt                  # YOLOv8 model weights (auto-downloads on first run)
+├── templates/
+│   ├── index.html                # Home page — image & video upload
+│   └── webcam.html               # Live webcam detection page
+├── static/
+│   ├── uploads/                   # Uploaded files (auto-created)
+│   └── results/                    # Processed output files (auto-created)
+└── assets/                       # README media — workflow diagram & output screenshots
+    ├── workflow.png
+    ├── image_output.png
+    └── video_output.png
 ```
 
 ---
 
-# Installation and Setup
+## 🚀 Getting Started
 
-## Clone Repository
-
+### 1. Clone the repository
 ```bash
 git clone https://github.com/kaviya050102/CodeAlpha_Object_Detection_Tracking_YOLO.git
-```
-
-## Navigate to Project Directory
-
-```bash
 cd CodeAlpha_Object_Detection_Tracking_YOLO
 ```
 
-## Install Required Libraries
+### 2. Create a virtual environment (recommended)
+```bash
+python -m venv venv
+venv\Scripts\activate        # Windows
+source venv/bin/activate     # macOS/Linux
+```
 
+### 3. Install dependencies
 ```bash
 pip install -r requirements.txt
 ```
 
----
-
-# Run Application
-
-Start the Streamlit application:
-
+### 4. Run the app
 ```bash
-streamlit run streamlit_app.py
+python app.py
 ```
 
-Application will open:
-
+### 5. Open in your browser
 ```
-http://localhost:8501
-```
-
----
-
-# How The System Works
-
-### Step 1: Input Collection
-
-The user uploads an image or video through the Streamlit interface.
-
-### Step 2: Image Processing
-
-The input data is converted into a format suitable for AI processing.
-
-### Step 3: YOLOv8 Detection
-
-The YOLOv8 model analyzes the input and identifies objects.
-
-### Step 4: Object Tracking
-
-Detected objects are tracked across video frames.
-
-### Step 5: Result Visualization
-
-The application displays:
-
-- Object boundaries
-- Class labels
-- Detection results
-
----
-
-# YOLOv8 Model Information
-
-YOLOv8 (You Only Look Once Version 8) is a state-of-the-art object detection algorithm developed for fast and accurate computer vision applications.
-
-This project uses:
-
-```
-Model: YOLOv8 Nano
-Dataset: COCO Dataset
-Task: Object Detection and Tracking
+http://localhost:5000
 ```
 
-Advantages:
-
-- Real-time detection
-- High accuracy
-- Lightweight architecture
-- Fast inference speed
+> **First run note:** YOLOv8 will automatically download `yolov8n.pt` (~6 MB) the first time you run the app. This requires an internet connection once; after that, it's cached locally.
 
 ---
 
-# Detected Object Examples
+## 🖥️ Usage
 
-The model can recognize objects including:
+### Image Detection
+1. Go to the home page
+2. Choose an image file (`.jpg`, `.jpeg`, `.png`)
+3. Click **Run Detection**
+4. The annotated result appears below the upload form
 
-- Person
-- Vehicle
-- Bicycle
-- Animal
-- Electronics
-- Furniture
-- Daily life objects
+### Video Detection & Tracking
+1. Choose a video file (`.mp4`, `.avi`, `.mov`)
+2. Click **Run Detection**
+3. Processing runs frame-by-frame — progress is printed in the terminal
+4. Once done, the processed video (with tracking IDs) plays back on the page
 
-and many more classes from the COCO dataset.
-
----
-
-# Application Areas
-
-## Smart Surveillance
-
-Detect and monitor objects in security systems.
-
-## Traffic Monitoring
-
-Identify vehicles and analyze road conditions.
-
-## Industrial Automation
-
-Support automated inspection systems.
-
-## Retail Analytics
-
-Monitor customer activity and product interaction.
-
-## Autonomous Systems
-
-Assist AI-based decision-making systems.
+### Live Webcam Detection
+1. Click **Live Webcam** in the navbar
+2. Your webcam feed streams live with real-time detection boxes and tracking IDs
 
 ---
 
-# Deployment
+## ⚙️ Configuration
 
-The application can be deployed using:
+A few constants near the top of `app.py` control the speed/accuracy tradeoff:
 
-## Streamlit Cloud
-
-Live Application:
-
-```
-ADD_YOUR_STREAMLIT_LINK
+```python
+FRAME_SKIP = 3      # Run full detection every Nth frame (higher = faster, less smooth)
+INFER_SIZE = 480     # Inference resolution (lower = faster, less accurate)
 ```
 
----
-
-# Demo
-
-Project Demonstration Video:
-
-```
-ADD_YOUR_GOOGLE_DRIVE_VIDEO_LINK
-```
-
-The demo includes:
-
-- Image detection
-- Video detection
-- AI prediction results
+If you have an NVIDIA GPU with CUDA available, the app automatically detects and uses it — no config changes needed.
 
 ---
 
-# Future Enhancements
+## 🐢 Performance Notes
 
-Future improvements planned:
-
-- Real-time webcam detection
-- Advanced tracking using DeepSORT
-- Custom dataset training
-- Object counting system
-- Real-time analytics dashboard
-- Mobile application integration
-
----
-
-# Learning Outcomes
-
-Through this project, the following concepts were implemented:
-
-- Artificial Intelligence
-- Computer Vision
-- Deep Learning
-- YOLO Object Detection
-- Object Tracking
-- OpenCV Image Processing
-- Streamlit Application Development
-- AI Model Deployment
+- Running on **CPU** is significantly slower than GPU. A short clip can take anywhere from several seconds to a few minutes depending on length, resolution, and hardware.
+- To speed things up:
+  - Increase `FRAME_SKIP` for a rougher but faster preview
+  - Lower `INFER_SIZE` (e.g. `320`)
+  - Install a CUDA-enabled build of PyTorch if you have an NVIDIA GPU:
+    ```bash
+    pip uninstall torch torchvision -y
+    pip install torch torchvision --index-url https://download.pytorch.org/whl/cu121
+    ```
 
 ---
 
-# Author
+## 🧩 Known Limitations
 
-## Kaviya G
-
-B.Tech Artificial Intelligence and Data Science
-
----
-
-# Internship Project
-
-Developed as part of:
-
-**CodeAlpha Artificial Intelligence Internship**
-
-Project Title:
-
-**Object Detection and Tracking using YOLOv8**
+- Live webcam access only works when running the app **locally** — `cv2.VideoCapture(0)` accesses the camera on the machine running the Flask server, not the visitor's browser. This app is not designed for cloud deployment with remote webcam access.
+- Video processing is synchronous — the page waits until processing finishes before showing the result (no live progress bar in the UI; progress is logged to the terminal).
 
 ---
+
+## 📄 License
+
+This project was built for educational purposes as part of the CodeAlpha Internship program.
